@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "frame-tick"
+version = "0.5.6"
+description = "A lightweight Windows desktop time-lapse screen capture utility."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { file = "LICENSE" }
+authors = [{ name = "TimeLapse Capture contributors" }]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Win32 (MS Windows)",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Topic :: Multimedia :: Video :: Capture",
+]
+dependencies = [
+    "imageio>=2.34,<3",
+    "imageio-ffmpeg>=0.5",
+    "mss>=9.0",
+    "numpy>=1.23",
+    "Pillow>=10.0",
+    "pystray>=0.19,<1",
+    "pywin32>=306; platform_system == 'Windows'",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.6",
+    "pyinstaller>=6.0",
+]
+
+[project.gui-scripts]
+frame-tick = "time_lapse_capture.app:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 88
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["time_lapse_capture"]

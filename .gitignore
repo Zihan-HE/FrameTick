@@ -1,0 +1,27 @@
+# Python bytecode and tools
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Virtual environments and build artifacts
+.venv/
+venv/
+build/
+dist/
+build-v*/
+dist-v*/
+*.spec
+*.egg-info/
+
+# Local application state
+.time_lapse_capture/
+
+# Operating system and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
