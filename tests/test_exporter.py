@@ -70,3 +70,24 @@ def test_gif_export_creates_a_standard_animated_gif(tmp_path) -> None:
     with Image.open(destination) as output:
         assert output.format == "GIF"
         assert output.n_frames == 2
+
+
+def test_mp4_export_creates_a_playable_video(tmp_path) -> None:
+    """Video export writes an MP4 through the bundled ImageIO/FFmpeg path."""
+    first, second = tmp_path / "first.png", tmp_path / "second.png"
+    destination = tmp_path / "output.mp4"
+    Image.new("RGB", (4, 4), "red").save(first)
+    Image.new("RGB", (4, 4), "blue").save(second)
+
+    export_media(
+        [first, second],
+        destination,
+        output_frame_count=2,
+        frames_per_second=10,
+        output_size=(4, 4),
+        gif_compression="Balanced",
+        progress_callback=lambda _current, _total: None,
+    )
+
+    assert destination.is_file()
+    assert destination.stat().st_size > 0

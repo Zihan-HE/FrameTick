@@ -11,12 +11,18 @@ $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path -Parent $PSScriptRoot
 Set-Location $projectRoot
 
-python -m PyInstaller `
+$python = Join-Path $projectRoot '.venv\Scripts\python.exe'
+if (-not (Test-Path -LiteralPath $python)) {
+    $python = 'python'
+}
+
+& $python -m PyInstaller `
     --noconfirm `
     --clean `
     --windowed `
     --name FrameTick `
     --icon assets/frametick.ico `
+    --collect-all imageio `
     --collect-all imageio_ffmpeg `
     --hidden-import imageio.plugins.ffmpeg `
     --hidden-import imageio.plugins.pillow `

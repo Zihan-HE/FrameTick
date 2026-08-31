@@ -1,5 +1,11 @@
 # Changelog / 更新记录
 
+## 0.5.7 - 2026-08-31
+
+- Fixed Windows packaged video export by bundling the complete `imageio`
+  runtime and importing its video API statically. Video export now works after
+  both an automatic recording stop and a manual stop.
+
 ## 0.5.6 - 2026-08-30
 
 - Replaced the small native temporary-frame checkbox with a prominent 20-pixel

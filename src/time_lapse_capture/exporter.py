@@ -4,6 +4,8 @@ from collections.abc import Sequence
 from pathlib import Path
 from typing import Callable
 
+import imageio.v2 as imageio
+import numpy as np
 from PIL import Image, ImageOps
 
 ProgressCallback = Callable[[int, int], None]
@@ -133,9 +135,6 @@ def _export_video(
     progress_callback: ProgressCallback,
 ) -> None:
     """Stream encoded frames to FFmpeg through ImageIO."""
-    import imageio
-    import numpy as np
-
     # H.264 supports arbitrary even dimensions. Disabling ImageIO's 16-pixel
     # macroblock resize preserves the resolution selected in the application.
     writer_options = {"fps": frames_per_second, "macro_block_size": 1}
