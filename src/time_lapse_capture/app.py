@@ -1267,6 +1267,7 @@ class TimeLapseCaptureApp:
                     "notification_processing_done", str(Path(value).parent)
                 )
             else:
+                self.status.set(self.t("export_error"))
                 self._show()
                 messagebox.showerror(self.t("export_error"), value, parent=self.root)
         self.root.after(120, self._poll)
@@ -1333,7 +1334,7 @@ class TimeLapseCaptureApp:
                 lambda n, total: self.export_events.put(("progress", f"{n}/{total}")),
             )
         except Exception as error:
-            self.export_events.put(("error", str(error)))
+            self.export_events.put(("error", f"{type(error).__name__}: {error}"))
         else:
             self.export_events.put(("done", str(destination)))
 

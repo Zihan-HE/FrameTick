@@ -6,6 +6,9 @@ FrameTick is a lightweight, offline Windows utility for scheduled screenshots an
 
 ## 中文
 
+当前版本：**v0.5.8**。[下载 Windows 免安装版](https://github.com/Zihan-HE/FrameTick/releases/latest)。
+使用 v0.5.6 遇到视频生成失败，请下载新版并完整解压到新文件夹。
+
 ### 功能
 
 - 选择任意显示器，支持多显示器和负坐标布局。
@@ -54,6 +57,9 @@ python -m ruff check .
 ```
 
 ## English
+
+Current release: **v0.5.8**. [Download for Windows](https://github.com/Zihan-HE/FrameTick/releases/latest).
+If video export fails in v0.5.6, download the latest build and extract it into a new folder.
 
 ### Features
 

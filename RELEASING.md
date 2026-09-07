@@ -11,6 +11,9 @@ or generated screenshots to the repository.
 2. Run `python -m pytest` and `python -m ruff check .`.
 3. Run `./scripts/build-exe.ps1` in PowerShell.
 4. Test `dist/FrameTick/FrameTick.exe` on Windows.
+   Run `FrameTick.exe --check-exports <new-output-directory>` and verify that
+   `report.json` has `"ok": true`. This uses synthetic portrait frames to test
+   single-frame and multi-frame MP4, WebM, AVI, and GIF in the frozen executable.
 5. Zip the complete `dist/FrameTick` directory as
    `FrameTick-vX.Y.Z-Windows-x64.zip`.
 6. Create a GitHub Release with tag `vX.Y.Z`, attach that zip, and summarize the

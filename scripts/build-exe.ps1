@@ -32,4 +32,8 @@ if (-not (Test-Path -LiteralPath $python)) {
     --paths src `
     src/launcher.py
 
+if ($LASTEXITCODE -ne 0) {
+    throw "PyInstaller failed with exit code $LASTEXITCODE"
+}
+
 Write-Host "Built: $projectRoot\dist\FrameTick\FrameTick.exe"

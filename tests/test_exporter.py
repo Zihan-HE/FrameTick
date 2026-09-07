@@ -1,5 +1,7 @@
 """Tests for deterministic frame planning and image sizing."""
 
+import imageio.v2 as imageio
+import pytest
 from PIL import Image
 
 from time_lapse_capture.exporter import build_frame_plan, export_media, fit_frame
@@ -72,17 +74,21 @@ def test_gif_export_creates_a_standard_animated_gif(tmp_path) -> None:
         assert output.n_frames == 2
 
 
-def test_mp4_export_creates_a_playable_video(tmp_path) -> None:
-    """Video export writes an MP4 through the bundled ImageIO/FFmpeg path."""
+@pytest.mark.parametrize("extension", ["mp4", "webm", "avi"])
+@pytest.mark.parametrize("frame_count", [1, 2])
+def test_video_export_creates_a_playable_video(
+    tmp_path, extension, frame_count
+) -> None:
+    """Short clips remain decodable, including a stop after the first frame."""
     first, second = tmp_path / "first.png", tmp_path / "second.png"
-    destination = tmp_path / "output.mp4"
+    destination = tmp_path / f"output.{extension}"
     Image.new("RGB", (4, 4), "red").save(first)
     Image.new("RGB", (4, 4), "blue").save(second)
 
     export_media(
         [first, second],
         destination,
-        output_frame_count=2,
+        output_frame_count=frame_count,
         frames_per_second=10,
         output_size=(4, 4),
         gif_compression="Balanced",
@@ -91,3 +97,6 @@ def test_mp4_export_creates_a_playable_video(tmp_path) -> None:
 
     assert destination.is_file()
     assert destination.stat().st_size > 0
+    with imageio.get_reader(destination, format="FFMPEG") as reader:
+        assert reader.count_frames() == frame_count
+        assert reader.get_data(0).shape == (4, 4, 3)

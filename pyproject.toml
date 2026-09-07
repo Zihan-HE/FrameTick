@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "frame-tick"
-version = "0.5.7"
+version = "0.5.8"
 description = "A lightweight Windows desktop time-lapse screen capture utility."
 readme = "README.md"
 requires-python = ">=3.9"

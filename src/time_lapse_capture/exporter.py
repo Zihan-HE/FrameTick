@@ -55,8 +55,8 @@ def export_media(
 ) -> None:
     """Create GIF or video media from disk-backed source frames.
 
-    The source images are read one at a time. This keeps peak memory use close to
-    the size of one output frame, including on long recordings.
+    Video frames are streamed one at a time. GIF export retains quantized frames
+    in memory and is intended for short clips.
     """
     if frames_per_second < 1:
         raise ValueError("Frame rate must be at least 1 FPS.")
@@ -140,8 +140,17 @@ def _export_video(
     writer_options = {"fps": frames_per_second, "macro_block_size": 1}
     if destination.suffix.lower() == ".mp4":
         writer_options.update({"codec": "libx264", "quality": 8})
-    with imageio.get_writer(destination, **writer_options) as writer:
+    elif destination.suffix.lower() == ".webm":
+        writer_options.update({"codec": "libvpx-vp9", "quality": 8})
+    else:
+        writer_options.update({"codec": "mpeg4", "quality": 8})
+    with imageio.get_writer(destination, format="FFMPEG", **writer_options) as writer:
         for position, source_index in enumerate(plan, start=1):
             image = _read_output_frame(source_frames[source_index], output_size)
             writer.append_data(np.asarray(image))
             progress_callback(position, len(plan))
+
+    # A short FFmpeg job can fail on close without raising in ImageIO. Decode a
+    # frame before reporting success or allowing the caller to delete sources.
+    with imageio.get_reader(destination, format="FFMPEG") as reader:
+        reader.get_data(0)

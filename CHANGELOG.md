@@ -1,5 +1,16 @@
 # Changelog / 更新记录
 
+## 0.5.8 - 2026-09-07
+
+- Includes the v0.5.7 packaged ImageIO dependency fix previously available locally.
+- Fixed WebM export by selecting VP9; explicitly select codecs for all video formats.
+- Decode the generated video before reporting success and deleting temporary frames.
+- Clear the processing status on export failure and include the exception type.
+- Added packaged export diagnostics and regression tests for playable video output.
+
+中文：同步此前本机的视频导出修复，修复 WebM 编码器选择；导出后验证视频可解码，
+验证成功后才允许清理临时图片。改进失败状态和错误提示。
+
 ## 0.5.7 - 2026-08-31
 
 - Fixed Windows packaged video export by bundling the complete `imageio`
